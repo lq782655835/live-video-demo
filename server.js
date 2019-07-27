@@ -10,18 +10,20 @@ let https = require('https'),
             res.writeHead(200,{'Content-Type': 'text/html'});
             res.end(data);
         });
-    }).listen(443, function(){
+    }).listen(3001, function(){
         console.log('服务启动成功')
     });
 const wss = new WebSocket.Server({server});
     wss.binaryType = 'arraybuffer';
     wss.on('connection', (ws) => {
+        console.log('connect success')
         ws.on('message', function(data) {  
-      wss.clients.forEach(function each(client) {
-            if (client.readyState === WebSocket.OPEN && client !== ws) {
-              client.send(data);
-            }
-          });
-      }); 
+            console.log(data, 123)
+            wss.clients.forEach(function each(client) {
+                    if (client.readyState === WebSocket.OPEN && client !== ws) {
+                    client.send(data);
+                    }
+                });
+            }); 
     });
     
